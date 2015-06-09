@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.0.min.css"/>
+
+        <link rel="stylesheet" href="css/index.css"/>
+        <script src="js/jquery-1.10.2.min.js"></script>
+
+        <script src="js/jquery.mobile-1.4.0.min.js"></script>
+        <script src="js/zepto.min.js"></script>
+        <script src="js/jquery.serializeJSON.min.js"></script>
+        <script src="cordova.js"></script>
+        <script src="js/DatePicker.js"></script>
+
+
+        <script src="js/application.js"></script>
+        <script src="js/lime/em_javascript.js"></script>
+
+        <script>
+            $(document)
+                    .on('pagebeforecreate', Application.updateIcons)
+                    .on('deviceready', Application.initApplication);
+
+            function getCalendar(elm) {
+
+                var selectedQuestion = $(elm);
+                var options = {
+                    date: new Date(),
+                    mode: 'date'
+                };
+                // calling show() function with options and a result handler
+                datePicker.show(options, function(date) {
+                    date = date.getFullYear()
+                            + "-"
+                            + (date.getMonth() + 1)
+                            + "-"
+                            + (date.getDate());
+                    selectedQuestion.val(date);
+                    //alert(date);
+                });
+
+            }
+
+
+
+            function getAFile(anInput)
+            {
+
+                if (Application.isConnection())
+                {
+
+
+                    navigator.camera.getPicture(function(fileURI) {
+
+                        window.resolveLocalFileSystemURI(fileURI, function(fileEntry)
+                        {
+                            var selectedFileSize = 0;
+
+                            var fileExtension = String(fileEntry.name).substr(fileEntry.name.lastIndexOf('.') + 1);
+
+
+                            var allowedExtensions = $(anInput).attr('allowed_filetypes').replace(/ /g, "");
+
+                            var allowedExtensionsArray = allowedExtensions.split(",");
+
+                            var maxAllowedSize = parseInt($(anInput).attr('allowed_filesize'));
+
+                            var length = allowedExtensionsArray.length;
+                            var allowed = false;
+                            for (var i = 0; i < length; i++)
+                            {
+                                if (fileExtension == allowedExtensionsArray[i])
+                                {
+                                    allowed = true;
+
+                                    break;
+                                }
+                            }
+                            if (!allowed)
+                            {
+                                navigator.notification.alert('Selected file is not allowed. Only "' + allowedExtensions + '" are allowed!', function() {
+                                }, 'Error');
+                            }
+                            else
+                            {
+                                var maxAllowedSize = parseInt($(anInput).attr('allowed_filesize'));
+
+                                var getFileSuccess = function(file)
+                                {
+                                    selectedFileSize = file.size;
+
+                                    if (selectedFileSize / 1024 <= maxAllowedSize)
+                                    {
+                                        $(anInput).attr("fileURL", fileEntry.fullPath);
+                                        $(anInput).val(fileEntry.name);
+                                    }
+                                    else
+                                    {
+                                        navigator.notification.alert('Maximum file size allowed is ' + maxAllowedSize + ' KB only. Plz try again!', function() {
+                                        }, 'Error');
+                                    }
+                                };
+
+                                fileEntry.file(getFileSuccess, function() {
+                                });
+
+                            }
+                        }, function() {
+                        });
+
+                        //Application.uploadAFile(anInput,fileURI,g_selectedSid,g_selectedSurveyLang,$(anInput).attr("name"));
+                        //$(anInput).val(fileURI.substr(fileURI.lastIndexOf('/')+1));
+                        //$(anInput).attr("fileURL",fileURI);
+
+                    },
+                            function(message) {
+                                //alert('get file failed');
+                            },
+                            {
+                                quality: 50,
+                                destinationType: navigator.camera.DestinationType.FILE_URI,
+                                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+                            }
+                    );
+                }
+                else
+                {
+                    navigator.notification.alert('There is no internet connection. Please check your network connection and try again!', function() {
+                    }, 'Error');
+                }
+
+            }
+            function fail()
+            {
+            }
+
+
+
+
+
+
+
+
+
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="mainScreen">         
+            <img src="img/logo.png" class="imgCenter" />
+        </div>
+    </body>
+</html>
