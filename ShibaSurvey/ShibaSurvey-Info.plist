@@ -11,36 +11,19 @@
 	<key>CFBundleIconFile</key>
 	<string>icon.png</string>
 	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>medium-144</string>
-				<string>medium-logo</string>
-				<string>small-logo</string>
-			</array>
-		</dict>
-	</dict>
+	<dict/>
 	<key>CFBundleIcons~ipad</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>medium-144</string>
-				<string>small</string>
-			</array>
-		</dict>
-	</dict>
+	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>org.apache.ShibaSurvey</string>
+	<string>jp.dreamons.shiba-survey</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
